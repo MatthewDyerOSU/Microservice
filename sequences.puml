@@ -1,0 +1,14 @@
+@startuml sequences
+
+actor User as user
+participant Web_App as app
+participant Image_Service_API as api
+
+user -> app: Upload Image
+app -> api: Post Image
+api -> api: Validate Image
+api -> api: Save Image
+api --> app: Respond with Image
+app --> user: Display Image
+
+@enduml

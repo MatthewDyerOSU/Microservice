@@ -32,7 +32,6 @@ def upload_image():
     if image and allowed_file(image.filename):
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #print('upload_image filename: ' + filename)
         flash('Your image is uploaded!')
         return render_template('index.html', filename=filename)
     else:
@@ -41,7 +40,6 @@ def upload_image():
  
 @app.route('/display/<filename>')
 def display_image(filename):
-    #print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
  
 if __name__ == "__main__":
