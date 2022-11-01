@@ -2,7 +2,13 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 import os
 from werkzeug.utils import secure_filename
 
+default_port = 64799
 
+try:
+    from credentials import chosen_port
+    PORT = chosen_port
+except:
+    PORT = default_port
 
 app = Flask(__name__)
  
@@ -47,4 +53,4 @@ def display_image(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
  
 if __name__ == "__main__":
-    app.run(port=64799, debug=True)
+    app.run(port=PORT)
