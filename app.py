@@ -1,7 +1,9 @@
 from flask import Flask, flash, request, redirect, url_for, render_template
 import os
 from werkzeug.utils import secure_filename
- 
+
+
+
 app = Flask(__name__)
  
 UPLOAD_FOLDER = 'static/uploads/'
