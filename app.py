@@ -16,12 +16,13 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
      
  
-@app.route('/')
-def home():
-    return render_template('index.html')
- 
-@app.route('/', methods=['POST'])
-def upload_image():
+@app.route('/upload/<string:b_host>/<string:b_port>/<string:item_id>', methods=['GET', 'POST'])
+def upload_image(b_host, b_port, item_id):
+    if request.method == "GET":
+        print('GET', b_host, b_port, item_id)
+        dest_url = '/upload/{}/{}/{}'.format(b_host, b_port, item_id)
+        return render_template('index.j2', dest_url=dest_url)
+    print('POST', b_host, b_port, item_id)
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
@@ -33,7 +34,8 @@ def upload_image():
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         flash('Your image is uploaded!')
-        return render_template('index.html', filename=filename)
+        uri = 'http://{}:{}/img_uploaded/{}/{}'.format(b_host, b_port, item_id, filename)
+        return redirect(uri)
     else:
         flash('Only png, jpg, jpeg, gif, image types allowed!')
         return redirect(request.url)
@@ -43,4 +45,4 @@ def display_image(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
  
 if __name__ == "__main__":
-    app.run()
+    app.run(port=64799, debug=True)
