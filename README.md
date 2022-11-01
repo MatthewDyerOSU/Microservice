@@ -10,9 +10,10 @@ http://localhost:5000/uploads/image#.jpg
 ## How to receive data:
 The image is sent as a redirect HTTP response to the URL now serving the image.
 ### Example call:
+'''
 @app.route('/display/<filename>')
 def display_image(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
-
+'''
 ## UML:
 ![UML](uml_sequence.png)
